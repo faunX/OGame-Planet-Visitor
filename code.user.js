@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OGame Planet Visitor
 // @namespace    https://github.com/MrBurrBurr
-// @version      0.1
+// @version      0.2
 // @description  see you in space, cowboys!
 // @author       FREDERICK
 // @match        https://*.ogame.gameforge.com/*
@@ -12,22 +12,21 @@
 // ==/UserScript==
 
 (function() {
-    'use strict';
+  'use strict';
 
-    const planets = document.querySelectorAll('[id^="planet-"]');
-    const randomPlanet = planets[planets.length * Math.random() | 0];
-    const rndInt = randomIntFromInterval(20000, 45000);
-    const planetName = randomPlanet.firstElementChild.children[1].innerText;
-    console.log(`Visiting ${planetName} in ${Math.floor(rndInt / 1000)} seconds...`);
+  const planetAndMoons = document.querySelectorAll('a.planetlink, a.moonlink');
+  const randomPlanetOrMoon = planetAndMoons[planetAndMoons.length * Math.random() | 0];
+  const rndInt = randomIntFromInterval(20000, 45000);
+  
+  setTimeout(() => {
+    randomPlanetOrMoon.click();
+    // if nothing happens after 5 sec, we want to reload the page
     setTimeout(() => {
-        randomPlanet.firstElementChild.click();
-        //if nothing happens after 5 sec, we want to reload the page
-        setTimeout(() => {
-            location.reload();
-        }, 5000);
-    }, rndInt);
+      location.reload();
+    }, 5000);
+  }, rndInt);
 
-    function randomIntFromInterval(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min)
-    }
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
 })();
